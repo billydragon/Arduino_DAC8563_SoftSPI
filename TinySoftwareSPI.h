@@ -77,6 +77,6 @@ private:
 	byte _MISO_MASK;
 };
 
-extern SoftSPIClass SPI;
+extern SoftSPIClass SSPI;
 
 #endif

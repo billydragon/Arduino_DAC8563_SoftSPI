@@ -8,12 +8,6 @@
 
 #include "DAC8562.h"
 
-#ifdef USING_SOFT_SPI
-  #include "TinySoftwareSPI.h"
-#else
-  #include "SPI.h"
-#endif
-
 DAC8562::DAC8562( uint8_t cs_pin )
 {
   _cs_pin = cs_pin;
@@ -27,6 +21,9 @@ DAC8562::DAC8562( uint8_t cs_pin )
 DAC8562::DAC8562( uint8_t cs_pin, float vref)
 {
   _cs_pin = cs_pin;
+  _sck_pin = 13;
+  _mosi_pin = 11;
+  _miso_pin = 12;
   _vref=vref;
 };
 
@@ -42,7 +39,6 @@ DAC8562::DAC8562( uint8_t sck,uint8_t mosi, uint8_t miso, uint8_t cs_pin, float 
 void DAC8562::begin()
 {
   #ifdef USING_SOFT_SPI
-  //void begin(byte SCK_, byte MOSI_, byte MISO_, byte SS_); //No SS specified, so require pin designation
   SPI.begin(_sck_pin,_mosi_pin,_miso_pin,_cs_pin);
   #else
   SPI.begin();

@@ -25,8 +25,13 @@
 
 #include "Arduino.h"
 
-#ifndef USING_SOFT_SPI
-  #define USING_SOFT_SPI
+#define USING_SOFT_SPI
+
+#ifdef USING_SOFT_SPI
+#include "TinySoftwareSPI.h"
+#define SPI SSPI
+#else
+#include "SPI.h"
 #endif
 
 #define CMD_SETA_UPDATEA          0x18  // 
@@ -51,8 +56,6 @@
 #define DATA_INTERNAL_REF_DIS     0x0000  // Disable internal reference and reset DACs to gain = 1
 #define CMD_INTERNAL_REF_EN       0x38  // Enable Internal Reference & reset DACs to gain = 2
 #define DATA_INTERNAL_REF_EN      0x0001  // Enable Internal Reference & reset DACs to gain = 2
-
-
 
 class DAC8562
 {

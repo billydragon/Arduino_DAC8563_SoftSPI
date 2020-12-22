@@ -217,7 +217,6 @@ void SoftSPIClass::setClockDivider(uint8_t rate)
 {
 	
 	
-	
 }
 
-SoftSPIClass SPI;
+SoftSPIClass SSPI;

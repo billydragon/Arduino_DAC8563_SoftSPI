@@ -1,33 +1,35 @@
 #include "DAC8562.h"
 
-
 #define REF_POWER 3.3383
 
-#define USING_SOFT_SPI
-
+//CLR and LDAC = GND
 #ifdef USING_SOFT_SPI
 #define MOSI    4
 #define MISO    5
 #define SCK     6
-#endif
-
-//CLR and LDAC = GND
-//Arduino Leonardo (SCLK,DIN,CS) = SCK,MOSI,10
+#define MSG   "Using Software SPI"
+#else
+//Arduino Leonardo (SCLK,DIN,CS) = SCK,MOSI,10 - NOT WORKING HARDWARE SPI
 //Arduino UNO (SCLK,DIN,CS) = 13,11,10
-
+#define MSG   "Using Hardware SPI"
+#endif
 
 #define SS  10    //PIN SYNC on DAC8563 Board
 #define DAC_MIN   512 
 #define DAC_MAX   65024
 
-            //DAC8562( uint8_t sck,uint8_t mosi, uint8_t miso, uint8_t cs_pin, float vref)
+#ifdef USING_SOFT_SPI
 DAC8562 dac=DAC8562(SCK,MOSI,MISO,SS,REF_POWER);
+#else
+DAC8562 dac=DAC8562(SS,REF_POWER);
+#endif
 
 void setup() {
   dac.begin();
   Serial.begin(115200);
-  delay(200);  
-Serial.println("Enter value: (-255:255).");
+  delay(1000);
+  Serial.println(MSG);  
+  Serial.println("Enter value: (-255:255).");
 }
 
 void Set_DAC_A(int16_t val)
